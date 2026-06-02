@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Run Demo Case</title>
+    <meta
+      name="description"
+      content="Run an AgriTalk consultation case."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="runner-body" data-layout="immersive">
+    <div class="sky-glow" aria-hidden="true"></div>
+    <div class="leaf-noise" aria-hidden="true"></div>
+
+    <header class="site-topbar">
+      <a class="brand-link" href="./index.html">
+        <span class="brand-mark"></span>
+        <span class="brand-title">AgriTalk</span>
+      </a>
+      <nav class="site-nav">
+        <a href="./select.html">Change Case</a>
+        <a href="./about.html">About</a>
+      </nav>
+    </header>
+
+    <main class="runner-main">
+      <section class="runner-shell panel">
+        <div class="runner-topline">
+          <div>
+            <span class="eyebrow">Live Session</span>
+            <h1 id="caseTitle">Loading case...</h1>
+          </div>
+          <div class="topline-actions">
+            <div class="layout-switcher">
+              <button class="layout-button active" data-layout="immersive" type="button">Immersive</button>
+              <button class="layout-button" data-layout="split" type="button">Split</button>
+              <button class="layout-button" data-layout="focus" type="button">Focus</button>
+            </div>
+            <div class="status-bubble" id="decisionPill">Idle</div>
+          </div>
+        </div>
+
+        <div class="runner-grid">
+          <article class="feature-card evidence-card">
+            <div class="card-head">
+              <span id="cropTag">Crop</span>
+              <span id="imageQualityTag">Quality</span>
+            </div>
+
+            <div class="crop-preview">
+              <img id="cropImage" class="crop-image" alt="Crop evidence preview" />
+              <div class="image-badge" id="imageBadge">Field evidence</div>
+            </div>
+
+            <div class="upload-shell">
+              <div class="upload-dropzone">
+                <span class="upload-icon">+</span>
+                <div>
+                  <strong>Uploaded evidence</strong>
+                  <p id="conditionTag">Preset case image</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="prompt-shell">
+              <textarea id="queryInput" rows="5"></textarea>
+            </div>
+
+            <div class="action-row">
+              <button class="button primary action-button" id="runDemoButton" type="button">
+                Run consultation
+              </button>
+              <button class="button secondary action-button" id="resetButton" type="button">
+                Reset
+              </button>
+            </div>
+          </article>
+
+          <article class="feature-card workflow-card">
+            <div class="card-head">
+              <span>Workflow</span>
+              <span id="confidenceValue">0%</span>
+            </div>
+
+            <div class="workflow-steps" id="workflowSteps"></div>
+            <div class="confidence-meter">
+              <div class="confidence-fill" id="confidenceFill"></div>
+            </div>
+            <div class="chat-thread" id="chatThread"></div>
+
+            <div class="followup-box hidden" id="followupBox">
+              <p class="followup-title">One more turn needed.</p>
+              <p class="followup-copy" id="followupPrompt"></p>
+              <button class="button primary action-button" id="followupButton" type="button">
+                Add extra details
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <div class="runner-strip">
+          <article class="result-tile">
+            <span class="signal-label">Confidence</span>
+            <strong id="confidenceSignal">0%</strong>
+          </article>
+          <article class="result-tile">
+            <span class="signal-label">Risk</span>
+            <strong id="riskSignal">Pending</strong>
+          </article>
+          <article class="result-tile">
+            <span class="signal-label">Outcome</span>
+            <strong id="outcomeSignal">Awaiting run</strong>
+          </article>
+          <article class="result-tile">
+            <span class="signal-label">Next step</span>
+            <strong id="nextStepSignal">Start consultation</strong>
+          </article>
+        </div>
+
+        <div class="runner-details">
+          <article class="detail-card">
+            <span class="signal-label">Summary</span>
+            <p class="detail-copy" id="summaryText"></p>
+          </article>
+          <article class="detail-card">
+            <span class="signal-label">Missing signals</span>
+            <ul id="missingList"></ul>
+          </article>
+          <article class="detail-card">
+            <span class="signal-label">Reasoning</span>
+            <ul id="diagnosisList"></ul>
+          </article>
+          <article class="detail-card">
+            <span class="signal-label">Action checklist</span>
+            <div class="checklist" id="checklist"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
