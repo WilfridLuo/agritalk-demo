@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap");
+
 :root {
   --bg: #f7f4e8;
   --panel: rgba(255, 252, 244, 0.92);
@@ -11,8 +13,8 @@
   --peach: #ffcfa8;
   --night: #0f1f1a;
   --shadow: 0 24px 60px rgba(122, 137, 99, 0.16);
-  --serif: "Georgia", "Times New Roman", serif;
-  --sans: "Avenir Next", "Nunito", "Segoe UI", sans-serif;
+  --display: "Fredoka", "Avenir Next Rounded", "Trebuchet MS", "Segoe UI", sans-serif;
+  --sans: "Fredoka", "Avenir Next Rounded", "Trebuchet MS", "Segoe UI", sans-serif;
 }
 
 * {
@@ -66,7 +68,9 @@ body {
 .sky-haze,
 .sun-disc,
 .ridge,
-.fog {
+.fog,
+.dew-drop,
+.dew-ripple {
   position: absolute;
 }
 
@@ -77,6 +81,64 @@ body {
   transform: scale(1.04);
   animation: backgroundDrift 22s ease-in-out infinite alternate;
   filter: saturate(0.96) contrast(1.04);
+}
+
+.landing-atmosphere::before,
+.landing-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.landing-atmosphere::before {
+  background:
+    radial-gradient(circle at 60% 34%, rgba(220, 243, 255, 0.22), transparent 0),
+    radial-gradient(circle at 60% 34%, rgba(220, 243, 255, 0), transparent 16%);
+  opacity: 0;
+  animation: impactBloom 2.6s ease-out 1.58s forwards;
+}
+
+.landing-atmosphere::after {
+  background:
+    radial-gradient(circle at 60% 34%, rgba(242, 252, 255, 0.12), transparent 10%),
+    radial-gradient(circle at 60% 34%, rgba(242, 252, 255, 0), transparent 24%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: shimmerWake 5.6s ease-in-out 2.2s infinite;
+}
+
+.dew-drop {
+  width: 18px;
+  height: 18px;
+  top: 18%;
+  left: 60%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), rgba(194, 233, 245, 0.72) 55%, rgba(120, 186, 199, 0.16) 100%);
+  box-shadow:
+    0 0 28px rgba(216, 242, 255, 0.24),
+    inset -2px -3px 6px rgba(95, 147, 157, 0.22);
+  opacity: 0;
+  transform: translate(-50%, -120px) scale(0.86);
+  animation: dropFall 2.5s cubic-bezier(0.3, 0.05, 0.18, 1) forwards;
+}
+
+.dew-ripple {
+  left: 60%;
+  top: 34%;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(230, 246, 255, 0.38);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+}
+
+.ripple-a {
+  animation: rippleExpand 2.35s ease-out 1.72s forwards;
+}
+
+.ripple-b {
+  animation: rippleExpand 2.85s ease-out 1.94s forwards;
 }
 
 .haze-a {
@@ -180,6 +242,17 @@ body {
   z-index: 2;
 }
 
+.landing-body .brand-link,
+.landing-body .site-nav {
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: navFade 0.95s ease 2.7s forwards;
+}
+
+.landing-body .site-nav {
+  animation-delay: 2.92s;
+}
+
 .brand-link {
   display: flex;
   align-items: center;
@@ -197,9 +270,10 @@ body {
 }
 
 .brand-title {
-  font-family: var(--serif);
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-family: var(--display);
+  font-size: 1.28rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
 }
 
 .landing-body .brand-link,
@@ -216,6 +290,7 @@ body {
   text-decoration: none;
   color: var(--text);
   font-weight: 800;
+  font-family: var(--display);
 }
 
 .landing-main,
@@ -230,13 +305,13 @@ body {
 
 .landing-main {
   display: grid;
-  align-items: start;
+  align-items: center;
   min-height: calc(100vh - 94px);
 }
 
 .landing-hero {
   max-width: 760px;
-  padding: 10vh 0 12vh;
+  padding: 8vh 0 10vh;
 }
 
 .landing-hero h1,
@@ -244,34 +319,39 @@ body {
 .runner-topline h1,
 .about-head h1 {
   margin: 12px 0 0;
-  font-family: var(--serif);
-  line-height: 0.92;
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
 }
 
 .landing-hero h1 {
   max-width: 8ch;
   color: #f6f4e9;
-  font-size: clamp(3.6rem, 7.2vw, 6.4rem);
+  font-size: clamp(3.5rem, 6.4vw, 5.8rem);
   text-wrap: balance;
   text-shadow: 0 10px 40px rgba(5, 12, 17, 0.22);
-  animation: titleLift 1.2s ease both, titleBreath 9s ease-in-out 1.2s infinite;
+  opacity: 0;
+  animation: titleLift 1.25s ease 2.15s both, titleBreath 9s ease-in-out 3.45s infinite;
 }
 
 .landing-subline {
   margin: 22px 0 0;
-  max-width: 34ch;
+  max-width: 30ch;
   color: rgba(241, 246, 238, 0.78);
-  font-size: 1.1rem;
-  line-height: 1.7;
-  animation: fadeRise 1.4s ease both;
+  font-size: 1.16rem;
+  line-height: 1.72;
+  opacity: 0;
+  animation: fadeRise 1.2s ease 2.45s both;
 }
 
 .landing-actions {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
-  margin-top: 34px;
-  animation: fadeRise 1.6s ease both;
+  margin-top: 30px;
+  opacity: 0;
+  animation: fadeRise 1.2s ease 2.8s both;
 }
 
 .landing-actions .button {
@@ -284,31 +364,13 @@ body {
   box-shadow: 0 22px 44px rgba(6, 14, 16, 0.26);
 }
 
-.landing-tail {
-  display: flex;
-  align-items: flex-end;
-  min-height: 16vh;
-  padding-bottom: 4vh;
-}
-
-.tail-copy {
-  color: rgba(240, 246, 236, 0.74);
-  animation: fadeRise 2s ease both;
-}
-
-.tail-copy p {
-  margin: 10px 0 0;
-  font-size: 1rem;
-  line-height: 1.7;
-}
-
 .breath-line {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-top: 34px;
-  opacity: 0.7;
-  animation: fadeRise 1.8s ease both;
+  margin-top: 42px;
+  opacity: 0;
+  animation: fadeRise 1.2s ease 3.08s forwards;
 }
 
 .breath-line span {
@@ -344,6 +406,8 @@ body {
   font: inherit;
   font-size: 1rem;
   font-weight: 800;
+  font-family: var(--display);
+  letter-spacing: 0.01em;
   text-decoration: none;
   cursor: pointer;
   color: var(--text);
@@ -362,16 +426,18 @@ body {
 .button.xl {
   min-height: 64px;
   padding: 0 28px;
-  font-size: 1.05rem;
+  font-size: 1.02rem;
 }
 
 .eyebrow,
 .signal-label,
 .card-head {
   color: var(--muted);
-  font-size: 0.76rem;
-  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
+  font-family: var(--display);
+  font-weight: 700;
 }
 
 .landing-body .eyebrow {
@@ -439,6 +505,8 @@ body {
 .case-select-card strong {
   display: block;
   margin: 18px 0 12px;
+  font-family: var(--display);
+  font-weight: 800;
   font-size: 1.75rem;
 }
 
@@ -616,6 +684,8 @@ body {
 .upload-dropzone strong {
   display: block;
   margin-bottom: 4px;
+  font-family: var(--display);
+  font-weight: 800;
   font-size: 1.18rem;
 }
 
@@ -689,6 +759,8 @@ textarea {
 .workflow-step strong {
   display: block;
   margin-top: 6px;
+  font-family: var(--display);
+  font-weight: 800;
   font-size: 1.2rem;
 }
 
@@ -761,6 +833,7 @@ textarea {
 
 .followup-title {
   margin: 0 0 6px;
+  font-family: var(--display);
   font-size: 1.34rem;
   font-weight: 800;
 }
@@ -784,6 +857,8 @@ textarea {
 .result-tile strong {
   display: block;
   margin-top: 8px;
+  font-family: var(--display);
+  font-weight: 800;
   font-size: 1.4rem;
   line-height: 1.35;
 }
@@ -869,6 +944,67 @@ textarea {
   }
 }
 
+@keyframes dropFall {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -120px) scale(0.82);
+  }
+  12% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  84% {
+    transform: translate(-50%, 8px) scale(0.92);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 20px) scale(0.86);
+  }
+}
+
+@keyframes rippleExpand {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  20% {
+    opacity: 0.72;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(13);
+  }
+}
+
+@keyframes impactBloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.84);
+  }
+  24% {
+    opacity: 0.72;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes shimmerWake {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.38;
+    transform: scale(1.02);
+  }
+}
+
 @keyframes floatGlow {
   0%,
   100% {
@@ -932,8 +1068,8 @@ textarea {
     opacity: 1;
   }
   50% {
-    transform: translateY(-2px) scale(1.008);
-    opacity: 0.96;
+    transform: translateY(-3px) scale(1.014);
+    opacity: 0.97;
   }
 }
 
@@ -946,6 +1082,17 @@ textarea {
   50% {
     opacity: 1;
     transform: scaleX(1.02);
+  }
+}
+
+@keyframes navFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
