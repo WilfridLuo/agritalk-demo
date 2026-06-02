@@ -721,6 +721,34 @@ function setupRevealBlocks() {
   blocks.forEach((block) => observer.observe(block));
 }
 
+function setupLandingSplash() {
+  const landingBody = document.querySelector(".landing-body");
+  const enterButton = document.querySelector("#enterExperience");
+
+  if (!landingBody || !enterButton) {
+    return;
+  }
+
+  let revealStarted = false;
+
+  const startReveal = () => {
+    if (revealStarted) {
+      return;
+    }
+
+    revealStarted = true;
+    landingBody.classList.add("landing-reveal");
+
+    window.setTimeout(() => {
+      landingBody.classList.add("landing-complete");
+      landingBody.classList.remove("landing-prelude");
+    }, 3900);
+  };
+
+  enterButton.addEventListener("click", startReveal);
+}
+
 renderCaseSelection();
 renderCaseRunner();
 setupRevealBlocks();
+setupLandingSplash();
