@@ -731,9 +731,11 @@ function setupLandingSplash() {
   }
 
   const ctx = canvas.getContext("2d");
+  const dropTexture = new Image();
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const splashState = {
     dpr: 1,
+    dropTextureReady: false,
     height: 0,
     idleFrame: 0,
     revealFrame: 0,
@@ -745,6 +747,11 @@ function setupLandingSplash() {
   const easeInCubic = (value) => value * value * value;
   const easeOutCubic = (value) => 1 - Math.pow(1 - value, 3);
   const easeOutQuart = (value) => 1 - Math.pow(1 - value, 4);
+
+  dropTexture.onload = () => {
+    splashState.dropTextureReady = true;
+  };
+  dropTexture.src = "./assets/dew-drop-texture.png";
 
   function resizeCanvas() {
     splashState.dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -912,6 +919,47 @@ function setupLandingSplash() {
     ctx.fillStyle = lowerShade;
     ctx.fillRect(-size, -size * 1.4, size * 2, size * 2.6);
     ctx.restore();
+
+    ctx.restore();
+  }
+
+  function drawTexturedWaterDrop(x, y, size, progress) {
+    if (!splashState.dropTextureReady) {
+      drawWaterDrop(x, y, size, progress);
+      return;
+    }
+
+    const impactEase = clamp((progress - 0.75) / 0.25, 0, 1);
+    const squash = easeOutCubic(impactEase);
+    const stretch = 1 + (1 - squash) * 0.16;
+    const widthScale = 1 - squash * 0.26;
+    const opacity = clamp(1 - impactEase * 1.42, 0, 1);
+    const rotation = -0.09 + progress * 0.16;
+    const targetHeight = size * 3.05;
+    const targetWidth = targetHeight * (dropTexture.naturalWidth / dropTexture.naturalHeight);
+    const shadowRadius = size * (1.28 + progress * 0.48);
+
+    ctx.save();
+    ctx.translate(x, y);
+
+    ctx.save();
+    ctx.globalAlpha = opacity * 0.42;
+    ctx.scale(1.05, 0.2);
+    const shadow = ctx.createRadialGradient(0, targetHeight * 0.58, 4, 0, targetHeight * 0.58, shadowRadius * 2.15);
+    shadow.addColorStop(0, "rgba(0, 13, 18, 0.34)");
+    shadow.addColorStop(1, "rgba(0, 13, 18, 0)");
+    ctx.fillStyle = shadow;
+    ctx.beginPath();
+    ctx.arc(0, targetHeight * 0.58, shadowRadius * 2.15, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.rotate(rotation);
+    ctx.scale(widthScale, stretch);
+    ctx.globalAlpha = opacity;
+    ctx.filter = "contrast(1.08) saturate(1.08)";
+    ctx.drawImage(dropTexture, -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
+    ctx.filter = "none";
 
     ctx.restore();
   }
@@ -1086,7 +1134,7 @@ function setupLandingSplash() {
     drawAmbientSurface(timestamp / 1000, 1);
 
     if (elapsed < 1.36) {
-      drawWaterDrop(x, dropY, dropSize, travel);
+      drawTexturedWaterDrop(x, dropY, dropSize, travel);
     }
 
     if (elapsed > 1.05) {
