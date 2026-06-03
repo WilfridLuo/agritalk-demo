@@ -737,7 +737,6 @@ function setupLandingSplash() {
     dpr: 1,
     dropTextureReady: false,
     height: 0,
-    idleFrame: 0,
     revealFrame: 0,
     width: 0
   };
@@ -754,7 +753,7 @@ function setupLandingSplash() {
   dropTexture.src = "./assets/dew-drop-texture.png";
 
   function resizeCanvas() {
-    splashState.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    splashState.dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     splashState.width = window.innerWidth;
     splashState.height = window.innerHeight;
     canvas.width = Math.round(splashState.width * splashState.dpr);
@@ -1113,12 +1112,9 @@ function setupLandingSplash() {
     drawMist(cx, cy, age, fade);
   }
 
-  function drawIdleFrame(timestamp) {
+  function drawIdleSurface(timestamp = performance.now()) {
     clearCanvas();
     drawAmbientSurface(timestamp / 1000, 0.82);
-    if (!revealStarted) {
-      splashState.idleFrame = window.requestAnimationFrame(drawIdleFrame);
-    }
   }
 
   function drawRevealFrame(startTime, timestamp) {
@@ -1149,8 +1145,13 @@ function setupLandingSplash() {
   }
 
   resizeCanvas();
-  drawIdleFrame(performance.now());
-  window.addEventListener("resize", resizeCanvas);
+  drawIdleSurface();
+  window.addEventListener("resize", () => {
+    resizeCanvas();
+    if (!revealStarted) {
+      drawIdleSurface();
+    }
+  });
 
   const startReveal = () => {
     if (revealStarted) {
@@ -1158,7 +1159,6 @@ function setupLandingSplash() {
     }
 
     revealStarted = true;
-    window.cancelAnimationFrame(splashState.idleFrame);
 
     if (reducedMotion) {
       landingBody.classList.add("landing-reveal", "landing-complete");

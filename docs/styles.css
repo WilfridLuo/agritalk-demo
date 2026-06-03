@@ -270,6 +270,13 @@ body {
   animation: fogMove 24s ease-in-out infinite reverse;
 }
 
+.landing-body.landing-complete .landing-atmosphere,
+.landing-body.landing-complete .sky-haze,
+.landing-body.landing-complete .sun-disc,
+.landing-body.landing-complete .fog {
+  animation: none;
+}
+
 .select-body,
 .runner-body,
 .about-body {
@@ -446,36 +453,6 @@ body {
   box-shadow: 0 22px 44px rgba(6, 14, 16, 0.26);
 }
 
-.breath-line {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-top: 42px;
-  opacity: 0.74;
-}
-
-.breath-line span {
-  display: block;
-  height: 2px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(242, 246, 236, 0.14), rgba(242, 246, 236, 0.8), rgba(242, 246, 236, 0.14));
-  animation: lineBreath 5.4s ease-in-out infinite;
-}
-
-.breath-line span:nth-child(1) {
-  width: 86px;
-}
-
-.breath-line span:nth-child(2) {
-  width: 42px;
-  animation-delay: 0.6s;
-}
-
-.breath-line span:nth-child(3) {
-  width: 112px;
-  animation-delay: 1.2s;
-}
-
 .button {
   display: inline-flex;
   align-items: center;
@@ -530,7 +507,7 @@ body {
 }
 
 .landing-body.landing-reveal .landing-hero h1 {
-  animation: titleLift 1.15s ease 2.55s both, titleBreath 8.5s ease-in-out 3.8s infinite;
+  animation: titleLift 1.15s ease 2.55s both;
 }
 
 .landing-body.landing-reveal .landing-subline {
@@ -541,11 +518,6 @@ body {
 .landing-body.landing-reveal .landing-actions {
   opacity: 0;
   animation: fadeRise 1.05s ease 3.08s forwards;
-}
-
-.landing-body.landing-reveal .breath-line {
-  opacity: 0;
-  animation: fadeRise 1s ease 3.24s forwards;
 }
 
 .landing-body.landing-reveal .splash-enter,
@@ -1119,30 +1091,6 @@ textarea {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes titleBreath {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-2px) scale(1.006);
-    opacity: 0.98;
-  }
-}
-
-@keyframes lineBreath {
-  0%,
-  100% {
-    opacity: 0.28;
-    transform: scaleX(0.94);
-  }
-  50% {
-    opacity: 1;
-    transform: scaleX(1.02);
   }
 }
 
